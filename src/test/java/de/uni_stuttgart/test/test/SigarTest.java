@@ -16,8 +16,6 @@ import de.uni_stuttgart.monitoring.NFSStatusProbe;
 import de.uni_stuttgart.monitoring.NetworkStateProbe;
 
 public class SigarTest {
-	String filePath = "/tmp/foo.txt";
-	String fsRoot = "/";
 	Properties properties;
 	public SigarTest() throws IOException{
 		properties = new Properties();
@@ -26,12 +24,12 @@ public class SigarTest {
 		properties.load(in);
 	}
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void testFreeSpace() throws SigarException
 	{
 		FreeDiskSpaceProbe diskprobe = new FreeDiskSpaceProbe();
-		diskprobe.getFreeDiskSpace(properties.getProperty("fs_root"));
+		System.out.println("Free disk space is: "+diskprobe.getFreeDiskSpace(properties.getProperty("fs_root")));
 	}
 	@Ignore
 	@Test
@@ -48,12 +46,12 @@ public class SigarTest {
 	@Test
 	public void testAverageNumberOfReads() throws SigarException, InterruptedException
 	{
-		IOLoadProbe ioMonitor = new IOLoadProbe(properties.getProperty("fs_root"));
+		IOLoadProbe ioMonitor = new IOLoadProbe(properties.getProperty("fs_root"),Integer.valueOf(properties.getProperty("big_cycle")));
 		ioMonitor.start();
 		// measure read write requests during 30 seconds
 		Thread.sleep(30000);
 	}
-	@Ignore
+	//@Ignore
 	@Test
 	public void testAverageLatency() throws IOException{
 		String ip = "google.com";

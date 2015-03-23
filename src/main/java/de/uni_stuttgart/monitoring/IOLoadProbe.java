@@ -22,7 +22,7 @@ public class IOLoadProbe extends Thread{
 	long readRequests;
 	double writeSpeed;
 	double readSpeed;
-	int measurePeriod = 5000;
+	int measurePeriod;
 	boolean mark = true;
 	long averageNumberOfReads;
 	long averageNumberOfWrites;
@@ -30,7 +30,7 @@ public class IOLoadProbe extends Thread{
 	ReadCalculator readCalculator;
 	WriteCalculator writeCalculator;
 	
-	public IOLoadProbe(String fsRoot){
+	public IOLoadProbe(String fsRoot,int measurePeriod){
 		this.sigarImpl = new Sigar();
 		this.sigar=SigarProxyCache.newInstance(sigarImpl);
 		writeRequests = 0;
@@ -39,6 +39,7 @@ public class IOLoadProbe extends Thread{
 		readSpeed = 0;
 		averageNumberOfReads = 0;
 		this.fsRoot = fsRoot;
+		this.measurePeriod = measurePeriod;
 		
 	}
 	
