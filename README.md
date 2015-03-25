@@ -1,6 +1,6 @@
 **Monitoring Agent- An [HLRS](https://www.hlrs.de/) monitoring service**
 ------------------------------------------------
-The following agent is intended to monitor specific network metrics. The monitoring agent applies to both Windows and Linux machines. The code is developed in Java and use certain libraries like [Cigar](https://github.com/hyperic/sigar)$
+The following agent is intended to monitor specific network metrics. The monitoring agent applies to both Windows and Linux machines. The code is developed in Java and use certain libraries like [Sigar](https://github.com/hyperic/sigar)$
 
 Supported network metrics:
 
@@ -24,7 +24,7 @@ For any details regarding the Junit tests structure, check the SigarTest class.
 
 **Libraries**
 
- - Cigar(Inside the lib folder)
+ - Sigar(Inside the lib folder)
  - Log4j(Inside the lib folder)
 
 
