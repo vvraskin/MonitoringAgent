@@ -4,6 +4,10 @@ The following agent is intended to monitor specific network metrics. The monitor
 
 Supported network metrics:
 
+
+----------
+
+
  **Network Latency** ( miliseconds )
 
  - How much time takes to a package to go from the point A to B.
@@ -31,6 +35,8 @@ Supported network metrics:
 
  - Supports version 2 & 3.
 
+
+----------
 
 
 **Getting started**
