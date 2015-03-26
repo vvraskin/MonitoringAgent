@@ -4,22 +4,34 @@ The following agent is intended to monitor specific network metrics. The monitor
 
 Supported network metrics:
 
- - Network Latency ( miliseconds )
-	 How much time takes to a package to go from the point A to B.
-	 Endtime - Starttime 
-	 
- - Free Disk Space ( Mb )
-	 Number of unallocated Mb on the host. 
-	 
- - Average rate of transmitted/received bytes ( kBytes/sec )
-	 	 
- - I/O load 
-	 Number of reads & writes per second.
-	 
- - Bandwidth ( Mbit / sec )
-	 Average rate of transmitted bytes / channel width
- - NFS connection status ( true or false )
-	 Supports version 2 & 3.
+ **Network Latency** ( miliseconds )
+
+ - How much time takes to a package to go from the point A to B.
+ - Endtime - Starttime
+
+**Free Disk Space**( Mb )
+
+ - Number of unallocated Mb on the host
+
+**Average rate of transmitted/received bytes** ( kBytes/sec )
+ 
+
+ - Avg. of packages transmitted or received in one second.
+
+**I/O load** ( Single units ):
+
+ - Number of reads & writes per second.
+ 
+**Bandwidth** ( Mbit / sec )
+ 
+
+ - Average rate of transmitted bytes / channel width
+
+**NFS connection status**( true or false )
+
+ - Supports version 2 & 3.
+
+
 
 **Getting started**
 
@@ -55,5 +67,6 @@ For any details regarding the Junit tests structure, check the SigarTest class.
 **Communication**
 
 Email: Pavel Skvortsov[skvortsov@hlrs.de] or Vadim Raskin[raskinvadim@gmail.com] 
+
 
 
