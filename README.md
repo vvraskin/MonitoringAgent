@@ -22,7 +22,7 @@ Supported network metrics:
 
  - Avg. of packages transmitted or received in one second.
 
-**I/O load** ( Single units ):
+**I/O load**
 
  - Number of reads & writes per second.
  
@@ -31,8 +31,7 @@ Supported network metrics:
 
  - Average rate of transmitted bytes / channel width
 
-**NFS connection status**( true or false )
-
+**NFS connection status** 
  - Supports version 2 & 3.
 
 
