@@ -10,9 +10,8 @@ Supported network metrics:
 
  **Network Latency** ( miliseconds )
 
- - How much time takes to a package to go from the point A to B.
- - Endtime - Starttime
-
+ - How much time takes to a package to reach its destination.
+ 
 **Free Disk Space**( Mb )
 
  - Number of unallocated Mb on the host
@@ -32,7 +31,7 @@ Supported network metrics:
  - Average rate of transmitted bytes / channel width
 
 **NFS connection status** 
- - Supports version 2 & 3.
+ - Support versions 2 & 3.
 
 
 ----------
