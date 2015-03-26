@@ -10,7 +10,7 @@ Supported network metrics:
 
  **Network Latency** ( miliseconds )
 
- - How much time takes to a package to reach its destination.
+ - How much time takes to a package to reach its destination. Avg(endtime-startime)
  
 **Free Disk Space**( Mb )
 
@@ -19,11 +19,11 @@ Supported network metrics:
 **Average rate of transmitted/received bytes** ( kBytes/sec )
  
 
- - Avg. of packages transmitted or received in one second.
+ - Avg. of packages transmitted or received per second.
 
 **I/O load**
 
- - Number of reads & writes per second.
+ - Number of reads & writes in Disk.
  
 **Bandwidth** ( Mbit / sec )
  
@@ -31,7 +31,7 @@ Supported network metrics:
  - Average rate of transmitted bytes / channel width
 
 **NFS connection status** 
- - Support versions 2 & 3.
+ - Check if mount point exist or not. Support versions 2 & 3. 
 
 
 ----------
