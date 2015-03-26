@@ -18,28 +18,23 @@ public class IOLoadProbe extends Thread{
 
 	Sigar sigarImpl;
 	SigarProxy sigar;
-	long writeRequests;
-	long readRequests;
-	double writeSpeed;
-	double readSpeed;
 	int measurePeriod;
-	boolean mark = true;
 	long averageNumberOfReads;
 	long averageNumberOfWrites;
 	String fsRoot;
 	ReadCalculator readCalculator;
 	WriteCalculator writeCalculator;
+	/**
+	 * Shared synchronized queue to store results of the measurements
+	 */
+	protected static MeasurementQueue queue;
 	
 	public IOLoadProbe(String fsRoot,int measurePeriod){
 		this.sigarImpl = new Sigar();
 		this.sigar=SigarProxyCache.newInstance(sigarImpl);
-		writeRequests = 0;
-		readRequests = 0;
-		writeSpeed = 0;
-		readSpeed = 0;
-		averageNumberOfReads = 0;
 		this.fsRoot = fsRoot;
 		this.measurePeriod = measurePeriod;
+		queue = new MeasurementQueue(fsRoot);
 		
 	}
 	
@@ -47,28 +42,89 @@ public class IOLoadProbe extends Thread{
 	public void run() {
 		
 		// start two threads that measure number of read/write requests
-		// parallel tasks will finish faster, right?
-		this.readCalculator = new ReadCalculator(fsRoot, measurePeriod);
-		this.writeCalculator = new WriteCalculator(fsRoot,measurePeriod);
+
+		this.readCalculator = new ReadCalculator(measurePeriod);
+		this.writeCalculator = new WriteCalculator(measurePeriod);
+		
 		readCalculator.start();
 		writeCalculator.start();
 		// calculate I/O load until someone interrupts us
 		while(true)
-		{
-			// do not busy wait, sleep until first results are ready
-			// TODO: implement future object
+		{	
 			try {
-				Thread.sleep(measurePeriod);
+				//averageNumberOfReads = readCalculator.getAverageNumberOfReads();
+				averageNumberOfReads = queue.getReadMeasurement();
+				System.out.println("Average number of reads per "+ this.measurePeriod+ " ms: "+ averageNumberOfReads);	
+				//averageNumberOfWrites = writeCalculator.getAverageNumberOfWrites();
+				averageNumberOfWrites = queue.getWriteMeasurement();
+				System.out.println("Average number of writes per "+ this.measurePeriod+ " ms: "+ averageNumberOfWrites);	
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			averageNumberOfReads = readCalculator.getAverageNumberOfReads();
-			System.out.println("Average number of reads: "+ averageNumberOfReads);	
-			averageNumberOfWrites = writeCalculator.getAverageNumberOfWrites();
-			System.out.println("Average number of writes: "+ averageNumberOfWrites);	
+			
 			
 		}
+	}
+}
+/**
+ * Implementation of synchronized queue to read and write measurements 
+ * @author raskin
+ *
+ */
+class MeasurementQueue{
+	String fsRoot;
+	// maximal number of read/write measurements that can be stored in the queue
+	int maxMeasurements = 1;
+	int readMeasurements = 0;
+	int writeMeasurements = 0;
+	long averageReads = 0;
+	long averageWrites = 0;
+	public MeasurementQueue(String fsRoot){
+		this.fsRoot = fsRoot;
+	}
+	public synchronized void setReadMeasurement(long numberOfReads) throws InterruptedException{
+		while(readMeasurements >= maxMeasurements){
+			wait();
+		}
+		// save average reads here
+		this.averageReads = numberOfReads;
+		readMeasurements++;
+		notifyAll();
+	}
+	public synchronized long getReadMeasurement() throws InterruptedException{
+		while(readMeasurements == 0){
+			wait();
+		}
+		// read the value
+		readMeasurements--;
+		long safeValue = averageReads;
+		notifyAll();
+		return safeValue;
+		
+	}
+	public synchronized void setWriteMeasurement(long numberOfWrites) throws InterruptedException{
+		while(writeMeasurements >=maxMeasurements){
+			wait();
+		}
+		// save average writes here
+		this.averageWrites = numberOfWrites;
+		writeMeasurements++;
+		notifyAll();
+	}
+	public synchronized long getWriteMeasurement() throws InterruptedException{
+		while(writeMeasurements == 0){
+			wait();
+		}
+		// get average reads here
+		writeMeasurements--;
+		// save the value here to avoid dirty read
+		long safeValue = averageWrites;
+		notifyAll();
+		return safeValue;
+	}
+	public String getFsRoot(){
+		return this.fsRoot;
 	}
 }
 /**
@@ -85,17 +141,18 @@ class ReadCalculator extends Thread{
 	int measurePeriod = 5000;
 	String fsRoot;
 	
-	public ReadCalculator(String fsRoot, int measurePeriod){
+	public ReadCalculator(int measurePeriod){
 		this.sigarImpl = new Sigar();
 		this.sigar=SigarProxyCache.newInstance(sigarImpl);
-		this.fsRoot = fsRoot;
+		this.fsRoot = IOLoadProbe.queue.getFsRoot();
 		this.measurePeriod = measurePeriod;
 		this.setName("Read/Write counter");
 	}
 	public void run(){
 		while(true){
 			try {
-				averageNumberOfReads = this.calculateAverageNumberOfReads(measurePeriod, fsRoot);
+				//averageNumberOfReads = this.calculateAverageNumberOfReads(measurePeriod, fsRoot);
+				IOLoadProbe.queue.setReadMeasurement(this.calculateAverageNumberOfReads(measurePeriod, fsRoot));
 			} catch (SigarException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -104,9 +161,6 @@ class ReadCalculator extends Thread{
 				e.printStackTrace();
 			}
 		}
-	}
-	public long getAverageNumberOfReads(){
-		return this.averageNumberOfReads;
 	}
 	private long calculateAverageNumberOfReads(int measurePeriod, String fsRoot) throws SigarException, InterruptedException
 	{
@@ -190,17 +244,18 @@ class WriteCalculator extends Thread{
 	int measurePeriod = 5000;
 	String fsRoot;
 	
-	public WriteCalculator(String fsRoot, int measurePeriod){
+	public WriteCalculator(int measurePeriod){
 		this.sigarImpl = new Sigar();
 		this.sigar=SigarProxyCache.newInstance(sigarImpl);
-		this.fsRoot = fsRoot;
+		this.fsRoot = IOLoadProbe.queue.getFsRoot();
 		this.measurePeriod = measurePeriod;
 		this.setName("Write counter");
 	}
 	public void run(){
 		while(true){
 			try {
-				averageNumberOfWrites = this.calculateAverageNumberOfWrites(measurePeriod, fsRoot);
+				//averageNumberOfWrites = this.calculateAverageNumberOfWrites(measurePeriod, fsRoot);
+				IOLoadProbe.queue.setWriteMeasurement(this.calculateAverageNumberOfWrites(measurePeriod, fsRoot));
 			} catch (SigarException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -209,9 +264,6 @@ class WriteCalculator extends Thread{
 				e.printStackTrace();
 			}
 		}
-	}
-	public long getAverageNumberOfWrites(){
-		return this.averageNumberOfWrites;
 	}
 	private long calculateAverageNumberOfWrites(int measurePeriod, String fsRoot) throws SigarException, InterruptedException
 	{
@@ -240,12 +292,10 @@ class WriteCalculator extends Thread{
 		this.sigar = SigarProxyCache.newInstance(sigarImpl);
 		FileSystemUsage fsUsage = sigar.getFileSystemUsage(fsRoot);
 		long initNumberOfWrites = fsUsage.getDiskWrites();
-//		System.out.println("Initial number of write operations is "+Long.toString(initNumberOfWrites));
 		Thread.sleep(milis);
 		this.sigar = SigarProxyCache.newInstance(sigarImpl);
 		fsUsage = this.sigar.getFileSystemUsage(fsRoot);
 		numberOfWrites = fsUsage.getDiskWrites();
-//		System.out.println("Number of write operations after writing the file "+Long.toString(numberOfWrites));
 		writeRequestsPerSecond = numberOfWrites - initNumberOfWrites;
 		if(writeRequestsPerSecond < 0){
 			System.out.println("Value can not be negative!");

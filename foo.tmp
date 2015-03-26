@@ -1,0 +1,83 @@
+///**
+// * Write file to the disk asynchronously
+// * @author raskin
+// *
+// */
+//class Writer extends Thread{
+//	
+//	String filePath;
+//	public Writer(String filePath){
+//		this.filePath = filePath;
+//	}
+//	@Override
+//	public void run(){
+//		
+//		try {
+//			Thread.sleep(300);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		File file = new File(filePath);
+//		try {
+//			file.createNewFile();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		PrintWriter writer = null;
+//		try {
+//			writer = new PrintWriter(filePath,"UTF-8");
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (UnsupportedEncodingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		writer.println("some random string");
+//		writer.close();
+//		System.out.println("File was written");
+//	}
+//	
+//}
+///**
+// * Read file from the disk asynchronously
+// * @author raskin
+// *
+// */
+//class Reader extends Thread{
+//	
+//	String filePath;
+//	public Reader(String filePath){
+//		this.filePath = filePath;
+//	}
+//	@Override
+//	public void run(){
+//		int bytes = 0;
+//		try {
+//			Thread.sleep(1000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		File file = new File(filePath);
+//		BufferedReader reader = null;
+//		try {
+//			reader =new BufferedReader(new FileReader(file));
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		try {
+//			bytes = reader.read();
+//			System.out.println(reader.readLine());
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		System.out.println("Number of bytes read:" + bytes);
+//		//file.deleteOnExit();
+//		//System.out.println("File deleted");
+//	}
+//}
