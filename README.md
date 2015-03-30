@@ -10,8 +10,8 @@ Supported Network Metrics:
 
  **Network Latency** ( miliseconds )
 
- - Calculates the amount of time for a package to reach its destination.
- - You can define the ip address, port number and the number of times you want to send the packets, in order to  calculate the latency of your network inside the properties file.
+ - Calculate the average time that a package needs to reach his destination(ip).
+ - You can define the inside the properties file the ip_address to ping, and the number of packages you want to send.
  - Config.properties file values: PING_IP, PING_PORT, PING_LOOP
 
 **Free Disk Space**( Mb )
@@ -23,7 +23,7 @@ Supported Network Metrics:
 **Average rate of transmitted/received bytes** ( kBytes/sec )
  
 
- - Avg. of packages transmitted or received per second.
+ - Average of packages transmitted or received per second.
 
 **I/O load**
 
@@ -47,7 +47,7 @@ Supported Network Metrics:
 
 **Getting started**
 
-The code runs one Junit test for every available metric. These tests are declared inside the SigarTest.java inside the test folder.
+The code runs one Junit test for every available metric. These tests are declared at the SigarTest class inside the test folder.
 For any details regarding the Junit tests structure, check the SigarTest class.
 
 **Required Libraries**
