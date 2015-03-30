@@ -2,7 +2,7 @@
 ------------------------------------------------
 The following agent is intended to monitor specific network metrics. The monitoring agent applies to both Windows and Linux machines. The code is developed in Java and use certain libraries like [Sigar](https://github.com/hyperic/sigar)$
 
-Supported network metrics:
+Supported Network Metrics:
 
 
 ----------
@@ -11,14 +11,14 @@ Supported network metrics:
  **Network Latency** ( miliseconds )
 
  - Calculates the amount of time for a package to reach its destination.
- - You can define the ip address, port number and the number of times you want to send the packets, in order to  calculate the latency.
- - Config.properties values: PING_IP, PING_PORT, PING_LOOP
+ - You can define the ip address, port number and the number of times you want to send the packets, in order to  calculate the latency of your network inside the properties file.
+ - Config.properties file values: PING_IP, PING_PORT, PING_LOOP
 
 **Free Disk Space**( Mb )
 
  - Number of unallocated Mb on the host.
- - You can define the filesystem rooth path inside the properties file.
- - Config.properties values: FS_ROOT
+ - You can define the host rooth path inside the properties file, for the metric calculation.
+ - Config.properties file value: FS_ROOT
 
 **Average rate of transmitted/received bytes** ( kBytes/sec )
  
@@ -28,8 +28,8 @@ Supported network metrics:
 **I/O load**
 
  - Number of reads & writes in Disk.
- - You can define the filesystem rooth path inside the properties file.
- - Config.properties values: FS_ROOT
+ - You can define the host rooth path inside the properties file, for the metric calculation.
+ - Config.properties file value: FS_ROOT
  
 **Bandwidth** ( Mbit / sec )
  
@@ -38,8 +38,8 @@ Supported network metrics:
 
 **NFS connection status** 
  - Check if mount point exist or not. Support versions 2 & 3. 
- - You can define the NFS mount point inside the properties file.
- - Config.properties values: NFS_MOUNT_POINT
+ - You can define the NFS mount point inside the properties file, for the metric calculation.
+ - Config.properties file value: NFS_MOUNT_POINT
 
 
 ----------
@@ -47,32 +47,25 @@ Supported network metrics:
 
 **Getting started**
 
-The code runs one Junit test for every available metric. These tests are declared inside the SigarTest.java at the test folder.
+The code runs one Junit test for every available metric. These tests are declared inside the SigarTest.java inside the test folder.
 For any details regarding the Junit tests structure, check the SigarTest class.
 
-**Requirements**
-
- - JDK 1.4 or higher
- - Eclipse Luna
-
-**Libraries**
+**Required Libraries**
 
  - Sigar(Inside the lib folder)
  - Log4j(Inside the lib folder)
 
-
 **Installation**
 
-    git clone https://github.com/vvraskin/MonitoringAgent.git
+    git clone https://github.com/yosandra/visor.git
 
 **Eclipse Configuration**
 
- - Import the Maven project into your Eclipse workspace.
- - Add missing libraries to the project build path(log4j & sigar). Available in the lib folder of the project.
- - Add Junit to the build path. So you can execute the Junit tests.
+ - Import the repository as a Maven project into your Eclipse workspace.
 
 **Run the JUnit Test**
- - Right click on the project folder anc choose "Run as "
+ - Edit the config.properties files values according to your host machine requirements.
+ - Right click on the project folder and choose "Run as "
  - Select "JUnit Test"
  - See the output in the console.
 
