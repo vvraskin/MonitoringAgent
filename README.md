@@ -12,10 +12,13 @@ Supported network metrics:
 
  - Calculates the amount of time for a package to reach its destination.
  - You can define the ip address, port number and the number of times you want to send the packets, in order to  calculate the latency.
- - config.properties values: PING_IP, PING_PORT, PING_LOOP
+ - Config.properties values: PING_IP, PING_PORT, PING_LOOP
+
 **Free Disk Space**( Mb )
 
- - Number of unallocated Mb on the host
+ - Number of unallocated Mb on the host.
+ - You can define the filesystem rooth path inside the properties file.
+ - Config.properties values: fs_root
 
 **Average rate of transmitted/received bytes** ( kBytes/sec )
  
@@ -25,6 +28,8 @@ Supported network metrics:
 **I/O load**
 
  - Number of reads & writes in Disk.
+ - You can define the filesystem rooth path inside the properties file.
+ - Config.properties values: fs_root
  
 **Bandwidth** ( Mbit / sec )
  
@@ -33,6 +38,8 @@ Supported network metrics:
 
 **NFS connection status** 
  - Check if mount point exist or not. Support versions 2 & 3. 
+ - You can define the NFS mount point inside the properties file.
+ - Config.properties values: nfs_mount_point
 
 
 ----------
