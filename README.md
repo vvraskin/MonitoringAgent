@@ -18,7 +18,7 @@ Supported network metrics:
 
  - Number of unallocated Mb on the host.
  - You can define the filesystem rooth path inside the properties file.
- - Config.properties values: fs_root
+ - Config.properties values: FS_ROOT
 
 **Average rate of transmitted/received bytes** ( kBytes/sec )
  
@@ -29,7 +29,7 @@ Supported network metrics:
 
  - Number of reads & writes in Disk.
  - You can define the filesystem rooth path inside the properties file.
- - Config.properties values: fs_root
+ - Config.properties values: FS_ROOT
  
 **Bandwidth** ( Mbit / sec )
  
@@ -39,7 +39,7 @@ Supported network metrics:
 **NFS connection status** 
  - Check if mount point exist or not. Support versions 2 & 3. 
  - You can define the NFS mount point inside the properties file.
- - Config.properties values: nfs_mount_point
+ - Config.properties values: NFS_MOUNT_POINT
 
 
 ----------
@@ -70,6 +70,11 @@ For any details regarding the Junit tests structure, check the SigarTest class.
  - Import the Maven project into your Eclipse workspace.
  - Add missing libraries to the project build path(log4j & sigar). Available in the lib folder of the project.
  - Add Junit to the build path. So you can execute the Junit tests.
+
+**Run the JUnit Test**
+ - Right click on the project folder anc choose "Run as "
+ - Select "JUnit Test"
+ - See the output in the console.
 
 **Bugs and Issues**
 
