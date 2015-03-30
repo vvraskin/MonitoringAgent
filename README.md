@@ -10,8 +10,9 @@ Supported network metrics:
 
  **Network Latency** ( miliseconds )
 
- - How much time takes to a package to reach its destination. Avg(endtime-startime)
- 
+ - Calculates the amount of time for a package to reach its destination.
+ - You can define the ip address, port number and the number of times you want to send the packets, in order to  calculate the latency.
+ - config.properties values: PING_IP, PING_PORT, PING_LOOP
 **Free Disk Space**( Mb )
 
  - Number of unallocated Mb on the host
